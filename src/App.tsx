@@ -1,33 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import {useEffect, useState} from "react";
+import List from "./components/List.tsx";
+import Form from "./components/Form.tsx";
+
+interface AppState {
+  followers: Array<Follower>
+}
+
+const INITIAL_FOLLOWERS: Array<Follower> = [
+  {name: 'John', age: 25, avatar: 'https://i.pravatar.cc/150?img=3', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, adipisci.'},
+  {name: 'Jane', age: 24, avatar: 'https://i.pravatar.cc/150?img=4', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, adipisci.'},
+  {name: 'Jack', age: 26, avatar: 'https://i.pravatar.cc/150?img=5'},
+];
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [followers, setFollowers] = useState<AppState["followers"]>([])
+
+  useEffect(() => {
+    setFollowers(INITIAL_FOLLOWERS)
+  }, []);
+
+  const handleNewFollower = (newFollower: Follower): void => {
+    setFollowers(followers => ([...followers, newFollower]));
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="App">
+        <h1>Followers</h1>
+        <Form onNewFollower={handleNewFollower}/>
+        <List followers={followers}/>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
