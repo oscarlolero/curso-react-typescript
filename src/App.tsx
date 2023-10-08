@@ -18,6 +18,8 @@ function App() {
   const [followers, setFollowers] = useState<AppState["followers"]>([])
 
   useEffect(() => {
+
+    //PD. NUNCA HACER FETCH/AXIOS DENTRO DE UN COMPONENTE, DENTRO DE CARPETA SERVICES: getAllSubs.ts
     setFollowers(INITIAL_FOLLOWERS)
   }, []);
 
